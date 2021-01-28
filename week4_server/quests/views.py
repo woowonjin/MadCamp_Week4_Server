@@ -35,7 +35,7 @@ def get_quest(request):
             elif(npc == "Kang"):
                 npc = quest_models.Quest.KANGWOOK
             elif(npc == "Yoon"):
-                npc = quest_models.Quest.YOON
+                npc = quest_models.Quest.YOONHO
             quest = quest_models.Quest.objects.filter(user=user).get(npc=npc)
             print(quest.is_solved)
             if(quest.is_solved):

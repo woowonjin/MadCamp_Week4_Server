@@ -39,31 +39,49 @@ def create(request):
         kind = base64.b64decode(kind)
         kind = str(kind, "UTF-8")
         print(phone)
+        print(kind)
         try:
             user = user_models.User.objects.get(username=phone)
+            price = 0
             if(kind == "Bird"):
                 kind = pet_models.Pet.BIRD
+                price = 5
             elif(kind == "Cat"):
                 kind = pet_models.Pet.CAT
+                price = 20
             elif(kind == "Chicken"):
                 kind = pet_models.Pet.CHICKEN
+                price = 10
             elif(kind == "Cow"):
                 kind = pet_models.Pet.COW
+                price = 30
             elif(kind == "Dog"):
                 kind = pet_models.Pet.DOG
+                price = 25
             elif(kind == "Duck"):
                 kind = pet_models.Pet.DUCK
+                price = 8
             elif(kind == "Elephant"):
                 kind = pet_models.Pet.ELEPHANT
+                price = 35
             elif(kind == "Koala"):
                 kind = pet_models.Pet.KOALA
+                price = 15
             elif(kind == "Llama"):
                 kind = pet_models.Pet.LLAMA
+                price = 18
             elif(kind == "Penguin"):
                 kind = pet_models.Pet.PENGUIN
-
-            pet = pet_models.Pet.objects.create(user=user, kind=kind)
-            pet.save()
-            return HttpResponse("PetCreate")
+                price = 27
+            strawberry = user.strawberry
+            if(strawberry < price):
+                print("here")
+                return HttpResponse("PriceError")
+            else:
+                user.strawberry = strawberry-price
+                user.save()
+                pet = pet_models.Pet.objects.create(user=user, kind=kind)
+                pet.save()
+                return HttpResponse("PetCreate")
         except:
             return HttpResponse("UserNotExist")
